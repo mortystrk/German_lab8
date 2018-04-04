@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Lab8</string>
+    <string name="name">Countries</string>
+    <string name="inflater_is_null">inflater == null :(</string>
+    <string name="textview_cities">Тут будут города выбранной страны</string>
+    <string name="australia">Австралия</string>
+    <string name="belarus">Беларусь</string>
+    <string name="canada">Канада</string>
+    <string name="denmark">Дания</string>
+    <string name="germany">Германия</string>
+    <string name="hungary">Венгрия</string>
+    <string name="niue">Ниуэ</string>
+    <string name="textview_countries_info">Что-то пошло не так. Тут должны быть страны</string>
+</resources>

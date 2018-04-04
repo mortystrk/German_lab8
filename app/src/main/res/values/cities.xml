@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="australia_cities">
+        <item>Сидней</item>
+        <item>Мельбурн</item>
+        <item>Перт</item>
+        <item>Брисбен</item>
+        <item>Аделаида</item>
+    </string-array>
+    
+    <string-array name="belarus_cities">
+        <item>Минск</item>
+        <item>Могилёв</item>
+        <item>Брест</item>
+        <item>Гродно</item>
+        <item>Гомель</item>
+    </string-array>
+    
+    <string-array name="canada_cities">
+        <item>Монреаль</item>
+        <item>Калгари</item>
+        <item>Эдмонт</item>
+        <item>Саскатун</item>
+        <item>Абботсфорд</item>
+    </string-array>
+
+    <string-array name="denmark_cities">
+        <item>Оденсе</item>
+        <item>Ольборг</item>
+        <item>Роскилле</item>
+        <item>Хельсингёр</item>
+        <item>Биллунн</item>
+    </string-array>
+    
+    <string-array name="germany_cities">
+        <item>Трир</item>
+        <item>Вюрцбург</item>
+        <item>Бамберг</item>
+        <item>Берлин</item>
+        <item>Мюнхен</item>
+    </string-array>
+    
+    <string-array name="hungary_cities">
+        <item>Будапешт</item>
+        <item>Дебрецен</item>
+        <item>Мишкольц</item>
+        <item>Дьёр</item>
+        <item>Эгер</item>
+    </string-array>
+
+    <string-array name="niue_cities">
+        <item>Намукулу</item>
+        <item>Туапа</item>
+        <item>Макефу</item>
+        <item>Хикутаваке</item>
+        <item>Лакепа</item>
+    </string-array>
+</resources>
