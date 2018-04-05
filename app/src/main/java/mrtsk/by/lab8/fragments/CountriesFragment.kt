@@ -5,8 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,10 +19,14 @@ import mrtsk.by.lab8.country.Country
 
 class CountriesFragment : Fragment() {
 
+
     private var countries = ArrayList<Country>()
     private lateinit var countriesAdapter: CountriesAdapter
+    private var checkLongClick = false
 
-    private var mCallback: OnFragmentCallbackInterface? = null
+    private var mCallback: OnFragmentCallback? = null
+    private var mActionDown: OnActionDownCallback? = null
+    private var mActionUp: OnActionUpCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +51,23 @@ class CountriesFragment : Fragment() {
         super.onResume()
         listV_countries.adapter = countriesAdapter
     }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnFragmentCallbackInterface) {
+        if (context is OnFragmentCallback) {
             mCallback = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentCallbackInterface")
+            throw RuntimeException(context!!.toString() + " must implement OnFragmentCallback")
+        }
+        if (context is OnActionUpCallback) {
+            mActionUp = context
+        } else {
+            throw RuntimeException(context!!.toString() + " must implement OnActionUpCallback")
+        }
+        if (context is OnActionDownCallback) {
+            mActionDown = context
+        } else {
+            throw RuntimeException(context!!.toString() + " must implement OnActionDownCallback")
         }
     }
 
@@ -59,8 +76,16 @@ class CountriesFragment : Fragment() {
         mCallback = null
     }
 
-    interface OnFragmentCallbackInterface {
+    interface OnFragmentCallback {
         fun onFragmentCallback(string: String)
+    }
+
+    interface OnActionDownCallback {
+        fun onTouchActionDownCallback(countryName: String)
+    }
+
+    interface OnActionUpCallback {
+        fun onTouchActionUpCallback(countryName: String, flag: Boolean)
     }
 
     companion object {
@@ -93,6 +118,25 @@ class CountriesFragment : Fragment() {
 
             viewHolder.countryName.text = countriesList[position].name
             viewHolder.countryFlag.setImageResource(countriesList[position].flag)
+
+            view!!.setOnLongClickListener(View.OnLongClickListener { v ->
+                val viewHolder = v!!.tag as ViewHolder
+                checkLongClick = true
+                mActionDown!!.onTouchActionDownCallback(viewHolder.countryName.text.toString())
+                return@OnLongClickListener true
+            })
+
+            view!!.setOnTouchListener(View.OnTouchListener { v, event ->
+                when (event!!.action) {
+                    MotionEvent.ACTION_UP -> {
+                        val viewHolder = v!!.tag as ViewHolder
+                        mActionUp!!.onTouchActionUpCallback(viewHolder.countryName.text.toString(), checkLongClick)
+                        checkLongClick = false
+                        return@OnTouchListener false
+                    }
+                }
+                false
+            })
 
             return view
         }

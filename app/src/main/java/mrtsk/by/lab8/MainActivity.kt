@@ -4,10 +4,42 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 import mrtsk.by.lab8.country.Country
+import mrtsk.by.lab8.fragments.CitiesFragment
 import mrtsk.by.lab8.fragments.CountriesFragment
 
-class MainActivity : AppCompatActivity(), CountriesFragment.OnFragmentCallbackInterface {
+class MainActivity : AppCompatActivity(), CountriesFragment.OnFragmentCallback, CountriesFragment.OnActionUpCallback, CountriesFragment.OnActionDownCallback {
+
+    private var citiesFragment: CitiesFragment? = null
+
+    override fun onTouchActionDownCallback(countryName: String) {
+
+        val country = countries.filter { it.name == countryName }
+        imageV_frame_flag.setImageResource(country[0].flag)
+        imageV_frame_flag.visibility = View.VISIBLE
+        tv_frame_info.text = "Down: $countryName"
+    }
+
+    override fun onTouchActionUpCallback(countryName: String, flag: Boolean) {
+        if (!flag) {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+            if (citiesFragment != null) {
+                fragmentTransaction.remove(citiesFragment)
+            }
+
+            val country = countries.filter { it.name == countryName }
+            citiesFragment = CitiesFragment.newInstance(country[0].cities)
+            tv_frame_info.visibility = View.INVISIBLE
+            fragmentTransaction.add(R.id.frame_container, citiesFragment).commit()
+        } else {
+            imageV_frame_flag.visibility = View.INVISIBLE
+            tv_frame_info.visibility = View.VISIBLE
+            tv_frame_info.text = "Up: $countryName; long click: $flag"
+        }
+    }
+
     override fun onFragmentCallback(string: String) {
 
     }

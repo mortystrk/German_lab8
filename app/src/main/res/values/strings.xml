@@ -11,4 +11,5 @@
     <string name="hungary">Венгрия</string>
     <string name="niue">Ниуэ</string>
     <string name="textview_countries_info">Что-то пошло не так. Тут должны быть страны</string>
+    <string name="city_name">city_name</string>
 </resources>

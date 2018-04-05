@@ -2,15 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rel_layout_listview"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ListView
-        android:id="@+id/listV_countries"
+        android:id="@+id/listV_cities"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:longClickable="true"
-        tools:listitem="@layout/country_item"/>
+        tools:listitem="@layout/city_item"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
