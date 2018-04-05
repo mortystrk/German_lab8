@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.BaseAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.city_list_fragment.*
@@ -38,6 +39,8 @@ class CitiesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         listV_cities.adapter = citiesAdapter
+        val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.list_layout_controller)
+        listV_cities.layoutAnimation = controller
     }
 
     companion object {
@@ -69,25 +72,6 @@ class CitiesFragment : Fragment() {
             }
 
             viewHolder.cityName.text = citiesList[position]
-
-            /*view!!.setOnLongClickListener(View.OnLongClickListener { v ->
-                val viewHolder = v!!.tag as ViewHolder
-                checkLongClick = true
-                mActionDown!!.onTouchActionDownCallback(viewHolder.countryName.text.toString())
-                return@OnLongClickListener true
-            })
-
-            view!!.setOnTouchListener(View.OnTouchListener { v, event ->
-                when (event!!.action) {
-                    MotionEvent.ACTION_UP -> {
-                        val viewHolder = v!!.tag as ViewHolder
-                        mActionUp!!.onTouchActionUpCallback(viewHolder.countryName.text.toString(), checkLongClick)
-                        checkLongClick = false
-                        return@OnTouchListener false
-                    }
-                }
-                false
-            })*/
 
             return view
         }

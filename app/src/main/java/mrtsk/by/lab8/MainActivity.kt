@@ -9,20 +9,24 @@ import mrtsk.by.lab8.country.Country
 import mrtsk.by.lab8.fragments.CitiesFragment
 import mrtsk.by.lab8.fragments.CountriesFragment
 
-class MainActivity : AppCompatActivity(), CountriesFragment.OnFragmentCallback, CountriesFragment.OnActionUpCallback, CountriesFragment.OnActionDownCallback {
+class MainActivity : AppCompatActivity(), CountriesFragment.OnActionUpCallback, CountriesFragment.OnActionLongClickCallback {
 
     private var citiesFragment: CitiesFragment? = null
 
-    override fun onTouchActionDownCallback(countryName: String) {
+    override fun onActionLongClickCallback(countryName: String) {
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        if (citiesFragment != null) {
+            fragmentTransaction.remove(citiesFragment).commit()
+        }
 
         val country = countries.filter { it.name == countryName }
         imageV_frame_flag.setImageResource(country[0].flag)
         imageV_frame_flag.visibility = View.VISIBLE
-        tv_frame_info.text = "Down: $countryName"
     }
 
-    override fun onTouchActionUpCallback(countryName: String, flag: Boolean) {
-        if (!flag) {
+    override fun onTouchActionUpCallback(countryName: String) {
             val fragmentTransaction = supportFragmentManager.beginTransaction()
 
             if (citiesFragment != null) {
@@ -33,15 +37,8 @@ class MainActivity : AppCompatActivity(), CountriesFragment.OnFragmentCallback, 
             citiesFragment = CitiesFragment.newInstance(country[0].cities)
             tv_frame_info.visibility = View.INVISIBLE
             fragmentTransaction.add(R.id.frame_container, citiesFragment).commit()
-        } else {
+
             imageV_frame_flag.visibility = View.INVISIBLE
-            tv_frame_info.visibility = View.VISIBLE
-            tv_frame_info.text = "Up: $countryName; long click: $flag"
-        }
-    }
-
-    override fun onFragmentCallback(string: String) {
-
     }
 
     private val countries = ArrayList<Country>()
