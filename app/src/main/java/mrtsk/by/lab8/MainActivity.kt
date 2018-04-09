@@ -8,6 +8,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import mrtsk.by.lab8.country.Country
 import mrtsk.by.lab8.fragments.CitiesFragment
 import mrtsk.by.lab8.fragments.CountriesFragment
+import java.util.*
+import java.util.Collections.shuffle
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), CountriesFragment.OnActionUpCallback, CountriesFragment.OnActionLongClickCallback {
 
@@ -34,7 +37,8 @@ class MainActivity : AppCompatActivity(), CountriesFragment.OnActionUpCallback, 
             }
 
             val country = countries.filter { it.name == countryName }
-            citiesFragment = CitiesFragment.newInstance(country[0].cities)
+
+            citiesFragment = CitiesFragment.newInstance(shuffle(country[0].cities))
             tv_frame_info.visibility = View.INVISIBLE
             fragmentTransaction.add(R.id.frame_container, citiesFragment).commit()
 
@@ -49,7 +53,9 @@ class MainActivity : AppCompatActivity(), CountriesFragment.OnActionUpCallback, 
 
         fillCountriesArrayList()
 
-        val fragment = CountriesFragment.newInstance(countries)
+        val shuffleCountries = shuffle(countries)
+
+        val fragment = CountriesFragment.newInstance(shuffleCountries.toList() as ArrayList<Country>)
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val text = findViewById<TextView>(R.id.tv_countries_frame_info)
         text.visibility = View.INVISIBLE
@@ -65,5 +71,17 @@ class MainActivity : AppCompatActivity(), CountriesFragment.OnActionUpCallback, 
         countries.add(Country(resources.getString(R.string.germany), R.drawable.germany, resources.getStringArray(R.array.germany_cities)))
         countries.add(Country(resources.getString(R.string.hungary), R.drawable.hungary, resources.getStringArray(R.array.hungary_cities)))
         countries.add(Country(resources.getString(R.string.niue), R.drawable.niue, resources.getStringArray(R.array.niue_cities)))
+    }
+
+    private fun shuffle(notShuffledArray: Array<String>) : Array<String> {
+        val mutableArray = notShuffledArray.toMutableList()
+        shuffle(mutableArray)
+        return mutableArray.toTypedArray()
+    }
+
+    private fun shuffle(notShuffledArray: ArrayList<Country>) : Array<Country> {
+        val mutableArray = notShuffledArray.toMutableList()
+        shuffle(mutableArray)
+        return mutableArray.toTypedArray()
     }
 }

@@ -14,10 +14,12 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.country_list_fragment.*
 import mrtsk.by.lab8.R
 import mrtsk.by.lab8.country.Country
+import java.util.*
 
 
 class CountriesFragment : Fragment() {
 
+    private lateinit var colors: ArrayList<Int>
     private var countries = ArrayList<Country>()
     private lateinit var countriesAdapter: CountriesAdapter
 
@@ -28,7 +30,8 @@ class CountriesFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             countries = arguments.getParcelableArrayList(ARG_COUNTRIES_LIST)
-
+            colors = arrayListOf()
+            fillColorsArray()
             countriesAdapter = CountriesAdapter(countries)
         }
     }
@@ -90,6 +93,8 @@ class CountriesFragment : Fragment() {
 
     inner class CountriesAdapter(private var countriesList: ArrayList<Country>) : BaseAdapter() {
 
+        private val shuffleColors = shuffle(colors)
+
         @SuppressLint("NewApi")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
             val view: View?
@@ -124,6 +129,9 @@ class CountriesFragment : Fragment() {
                 false
             })
 
+            val random = Random(Date().time)
+
+            view!!.setBackgroundColor(resources.getColor(shuffleColors[Math.abs(random.nextInt() % shuffleColors.size)]))
             return view
         }
 
@@ -143,5 +151,26 @@ class CountriesFragment : Fragment() {
     private class ViewHolder(view: View?) {
         val countryName: TextView = view?.findViewById<TextView>(R.id.tv_country_name) as TextView
         val countryFlag: ImageView = view?.findViewById<ImageView>(R.id.imageV_country_flag) as ImageView
+    }
+
+    private fun fillColorsArray() {
+        colors.add(android.R.color.holo_blue_bright)
+        colors.add(android.R.color.holo_green_dark)
+        colors.add(android.R.color.holo_orange_dark)
+        colors.add(android.R.color.holo_purple)
+        colors.add(android.R.color.holo_red_dark)
+        colors.add(android.R.color.darker_gray)
+        colors.add(android.R.color.holo_red_light)
+        colors.add(android.R.color.primary_text_dark)
+        colors.add(android.R.color.holo_orange_light)
+        colors.add(R.color.colorAccent)
+        colors.add(R.color.colorPrimaryDark)
+        colors.add(R.color.button_material_dark)
+    }
+
+    private fun shuffle(notShuffledArray: ArrayList<Int>) : Array<Int> {
+        val mutableArray = notShuffledArray.toMutableList()
+        Collections.shuffle(mutableArray)
+        return mutableArray.toTypedArray()
     }
 }
